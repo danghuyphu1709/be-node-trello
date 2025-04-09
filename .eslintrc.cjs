@@ -1,42 +1,30 @@
-/**
- * Updated by trungquandev.com's author on August 17 2023
- * YouTube: https://youtube.com/@trungquandev
- * "A bit of fragrance clings to the hand that gives flowers!"
- * Sample Eslint config for NodeJS ExpressJS MongoDB project
- */
-module.exports = {
-  env: { es2020: true, node: true },
-  extends: [
-    'eslint:recommended'
-  ],
-  parser: '@babel/eslint-parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    requireConfigFile: false,
-    allowImportExportEverywhere: true
+export default tseslint.config(
+  {
+    ignores: ['eslint.config.mjs'],
   },
-  plugins: [],
-  rules: {
-    // Common
-    'no-console': 1,
-    'no-extra-boolean-cast': 0,
-    'no-lonely-if': 1,
-    'no-unused-vars': 1,
-    'no-trailing-spaces': 1,
-    'no-multi-spaces': 1,
-    'no-multiple-empty-lines': 1,
-    'space-before-blocks': ['error', 'always'],
-    'object-curly-spacing': [1, 'always'],
-    'indent': ['warn', 2],
-    'semi': [1, 'never'],
-    'quotes': ['error', 'single'],
-    'array-bracket-spacing': 1,
-    'linebreak-style': 0,
-    'no-unexpected-multiline': 'warn',
-    'keyword-spacing': 1,
-    'comma-dangle': 1,
-    'comma-spacing': 1,
-    'arrow-spacing': 1
-  }
-}
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintPluginPrettierRecommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      ecmaVersion: 5,
+      sourceType: 'module',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      'semi': ['error', 'always'],
+    },
+  },
+);
