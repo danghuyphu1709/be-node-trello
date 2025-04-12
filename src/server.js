@@ -1,6 +1,8 @@
 import express from "express";
 import morgan from "morgan";
 import { connectToDatabase, getDatabase } from "./config/mongodb";
+import { v1Routes } from "./routes/v1/index.js";
+
 const app = express();
 
 const StartServer = async () => {
@@ -9,10 +11,34 @@ const StartServer = async () => {
     const port = 8080;
     app.use(morgan("dev"));
 
-    app.get("/", (req, res) => {
-      res.end("<h1>Hello World!</h1><hr>");
+    // Body parser middleware
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+
+    // Set up CORS
+    app.use((req, res, next) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+      next();
+    });
+    // Set up routes
+    app.use("/api/v1", v1Routes);
+    
+    // Handle 404 errors
+    app.use((req, res, next) => {
+      res.status(404).json({ message: "Not Found" });
     });
 
+    // Handle other errors
+    app.use((err, req, res, next) => {
+      console.error(err.stack);
+      res.status(500).json({ message: "Internal Server Error" });
+    });
+
+    // Start the server
     app.listen(port, hostname, () => {
       console.log(`Server running ${hostname}:${port}`);
     });
