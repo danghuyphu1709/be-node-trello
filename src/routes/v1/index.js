@@ -1,8 +1,7 @@
 import express from 'express';
 const router = express.Router();
+const { boardsRouter } = require('../../controllers/boards/boardsRoute.js');
 
-router.get('/check', (req, res) => {
-  res.json({ message: 'Welcome to the API!' });
-});
+router.use('/board', boardsRouter);
 
 export const v1Routes = router;
