@@ -1,26 +1,24 @@
-import boardSchema from "~/models/boardSchema";
+import cardSchema from "~/models/cardSchema";
 import ApiError from "~/utils/ApiError";
 import { StatusCodes } from "http-status-codes";
-import { slugify } from "~/utils/sorts";
+
 const list = async () => {
-  const data = await boardSchema.find({});
+  const data = await cardSchema.find({});
   return data;
 };
 
 const findById = async (id) => {
-  const data = await boardSchema.findOne({ _id: id });
+  const data = await cardSchema.findOne({ _id: id });
   return data;
 };
 
 const create = async (data) => {
-  data.slug = slugify(data.title);
-  const newData = await boardSchema.create(data);
+  const newData = await cardSchema.create(data);
   return newData;
 };
 
 const update = async (id, data) => {
-  data.slug = slugify(data.title);
-  const updatedData = await boardSchema.findByIdAndUpdate({ _id: id }, data, {
+  const updatedData = await cardSchema.findByIdAndUpdate({ _id: id }, data, {
     new: true,
     runValidators: true,
   });
@@ -36,7 +34,7 @@ const update = async (id, data) => {
 
 const destroy = async (id) => {
   try {
-    const destroy = await boardSchema.findByIdAndUpdate(
+    const destroy = await cardSchema.findByIdAndUpdate(
       { _id: id },
       { _destroy: true },
       { new: true, runValidators: true }
@@ -56,4 +54,4 @@ const destroy = async (id) => {
   }
 };
 
-export const boardService = { list, findById, create, update, destroy };
+export const cardService = { list, findById, create, update, destroy };

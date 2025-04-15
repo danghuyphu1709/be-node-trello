@@ -13,4 +13,4 @@ router.put('/:id',boardValidation.update,boardsController.update);
 
 router.delete('/:id',boardsController.destroy);
 
-export const boardsRouter = router;
+export const boardRouters = router;
