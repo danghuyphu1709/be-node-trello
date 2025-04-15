@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-const { boardsRouter } = require('../../controllers/boards/boardsRoute.js');
+const { boardsRouter } = require('./boardsRoute.js');
 
 router.use('/board', boardsRouter);
 

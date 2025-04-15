@@ -2,13 +2,15 @@ import express from "express";
 import morgan from "morgan";
 import { connectToDatabase, getDatabase } from "./config/mongodb";
 import { v1Routes } from "./routes/v1/index.js";
-
+import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
+import ApiError from "./utils/ApiError";
+import 'dotenv/config'
 const app = express();
 
 const StartServer = async () => {
   try {
-    const hostname = "192.168.0.17";
-    const port = 8080;
+    const hostname = process.env.APP_HOST || "192.168.0.17";
+    const port = process.env.APP_PORT || 8080;
     app.use(morgan("dev"));
 
     // Body parser middleware
@@ -28,15 +30,10 @@ const StartServer = async () => {
     app.use("/api/v1", v1Routes);
     
     // Handle 404 errors
-    app.use((req, res, next) => {
-      res.status(404).json({ message: "Not Found" });
-    });
+    app.use(errorHandlingMiddleware);
 
     // Handle other errors
-    app.use((err, req, res, next) => {
-      console.error(err.stack);
-      res.status(500).json({ message: "Internal Server Error" });
-    });
+   
 
     // Start the server
     app.listen(port, hostname, () => {
