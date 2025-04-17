@@ -3,7 +3,7 @@ import ApiError from "~/utils/ApiError";
 import { StatusCodes } from "http-status-codes";
 
 const list = async () => {
-  const data = await columnSchema.find({});
+  const data = await columnSchema.find({ _destroy: false });
   return data;
 };
 

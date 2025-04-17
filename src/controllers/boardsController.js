@@ -14,7 +14,7 @@ const list = async (req, res) => {
   }
 };
 
-const findById = async (req, res) => {
+const findById = async (req, res,next) => {
   try {
     const { id } = req.params;
 
@@ -25,20 +25,19 @@ const findById = async (req, res) => {
       data: data,
     });
   } catch (error) {
-    throw new ApiError();
+    next(new ApiError(StatusCodes.BAD_GATEWAY,error));
   }
 };
 
-const create = async (req, res) => {
+const create = async (req, res,next) => {
   try {
     const data = await boardService.create(req.body);
-
     res.status(StatusCodes.OK).json({
       status: true,
       data: data,
     });
   } catch (error) {
-    throw new ApiError();
+    next(new ApiError(StatusCodes.BAD_GATEWAY,error));
   }
 };
 
@@ -53,7 +52,7 @@ const update = async (req, res) => {
       data: data,
     });
   } catch (error) {
-    throw new ApiError();
+    throw new ApiError(StatusCodes.BAD_GATEWAY,"Lỗi khi tạo bản ghi !");
   }
 };
 

@@ -2,20 +2,31 @@ import boardSchema from "~/models/boardSchema";
 import ApiError from "~/utils/ApiError";
 import { StatusCodes } from "http-status-codes";
 import { slugify } from "~/utils/sorts";
+import { formatObjectId } from "~/utils/utils";
 const list = async () => {
-  const data = await boardSchema.find({});
+  const data = await boardSchema
+    .find({ _destroy: false })
+    // .populate("ownerIds")
+    // .populate("memberIds")
+    .populate("columns");
+
   return data;
 };
 
 const findById = async (id) => {
-  const data = await boardSchema.findOne({ _id: id });
+  const data = await boardSchema
+    .findOne({ _id: id })
+    // .populate("ownerIds")
+    // .populate("memberIds")
+    .populate("columns");
   return data;
 };
 
 const create = async (data) => {
   data.slug = slugify(data.title);
+  data.columns = formatObjectId(data.columnOrderIds);
   const newData = await boardSchema.create(data);
-  return newData;
+  return data;
 };
 
 const update = async (id, data) => {

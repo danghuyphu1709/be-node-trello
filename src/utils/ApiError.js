@@ -7,9 +7,10 @@ class ApiError extends Error {
       // Thằng cha (Error) có property message rồi nên gọi nó luôn trong super cho gọn
       super(message)
   
+      console.error("🚀 ~ ApiError ~ constructor ~ message:", message)
       // Tên của cái custom Error này, nếu không set thì mặc định nó sẽ kế thừa là "Error"
       this.name = 'ApiError'
-  
+
       // Gán thêm http status code của chúng ta ở đây
       this.statusCode = statusCode
   

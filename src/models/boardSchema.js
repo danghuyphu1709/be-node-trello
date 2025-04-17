@@ -8,7 +8,8 @@ const boardSchema = new Schema(
     type: { type: String, required: true },
     ownerIds: [{ type: Schema.Types.ObjectId, ref: "user", default: [] }],
     memberIds: [{ type: Schema.Types.ObjectId, ref: "user", default: [] }],
-    columnOrderIds: [
+    columnOrderIds: [],
+    columns: [
       { type: Schema.Types.ObjectId, ref: "column", default: [] },
     ],
     _destroy: { type: Boolean, default: false },

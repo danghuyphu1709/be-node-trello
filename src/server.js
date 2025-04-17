@@ -1,18 +1,21 @@
 import express from "express";
+import cors from 'cors'
 import morgan from "morgan";
 import { connectToDatabase, getDatabase } from "./config/mongodb";
 import { v1Routes } from "./routes/v1/index.js";
 import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 import ApiError from "./utils/ApiError";
+import { corsOptions } from "./config/cors";
 import 'dotenv/config'
-const app = express();
+
 
 const StartServer = async () => {
   try {
+    const app = express();
     const hostname = process.env.APP_HOST || "192.168.0.17";
     const port = process.env.APP_PORT || 8080;
     app.use(morgan("dev"));
-
+    app.use(cors(corsOptions))
     // Body parser middleware
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());

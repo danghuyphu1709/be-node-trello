@@ -1,8 +1,6 @@
-const SYSTEM_STATUS = {
+export const SYSTEM_STATUS = {
   IN_ACTIVE: 0,
   ACTIVE: 1,
 };
 
-export default {
-  SYSTEM_STATUS,
-};
+export const WHITELIST_DOMAINS = ["http://localhost:5173"];
